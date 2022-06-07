@@ -1,0 +1,6 @@
+name: jeespoping-ecomerce
+S3BucketAccessGameEcommerce
+
+strapi-game-ecomerce
+AKIA3QQSH6376RJXJ3NX
+W+fpZVkIPuNhhAg/4s/PTS7RSeIwBlAYlYi7sQ98
