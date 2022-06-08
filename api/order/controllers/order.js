@@ -1,25 +1,26 @@
 "use strict";
-
 const stripe = require("stripe")("sk_test_LMFiVJSw1HF0KoWTeXuAdejl0066HTC9dJ");
 
 /**
- * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
+ * Read the documentation (https://strapi.io/documentation/v3.x/concepts/controllers.html#core-controllers)
  * to customize this controller
  */
 
 module.exports = {
   async create(ctx) {
-    const { token, products, idUser, addressShiping } = ctx.request.body;
+    const { token, products, idUser, addressShipping } = ctx.request.body;
     let totalPayment = 0;
     products.forEach((product) => {
       totalPayment = totalPayment + product.price;
     });
-    const charge = await stripe.charge.create({
+
+    const charge = await stripe.charges.create({
       amount: totalPayment * 100,
       currency: "eur",
       source: token.id,
       description: `ID Usuario: ${idUser}`,
     });
+
     const createOrder = [];
     for await (const product of products) {
       const data = {
@@ -27,9 +28,9 @@ module.exports = {
         user: idUser,
         totalPayment,
         idPayment: charge.id,
-        addressShiping,
+        addressShipping,
       };
-      const validData = await createStrapi.entityValidator.validateEntity(
+      const validData = await strapi.entityValidator.validateEntityCreation(
         strapi.models.order,
         data
       );
